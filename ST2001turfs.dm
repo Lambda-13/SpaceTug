@@ -414,6 +414,8 @@ turf
 
 
 			verb/buckle()
+				set name = "Сесть"
+				set category = "Основное"
 				set src in range(usr, 1)
 
 				if(CheckGhostOrBrute(usr)) return
@@ -429,6 +431,8 @@ turf
 
 
 			verb/unbuckle()
+				set name = "Встать"
+				set category = "Основное"
 				set src in range(usr, 1)
 
 				if(CheckGhost(usr)) return

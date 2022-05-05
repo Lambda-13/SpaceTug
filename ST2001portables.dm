@@ -9,6 +9,7 @@ obj/portable
 
 	verb/get()
 		set name = "взять"
+		set category = "Основное"
 		set src in oview(1)
 		if(CheckGhostOrBrute(usr)) return
 		Move(usr)
