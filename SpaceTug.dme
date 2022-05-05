@@ -1,0 +1,76 @@
+// DM Environment file for SpaceTug.dme.
+// All manual changes should be made outside the BEGIN_ and END_ blocks.
+
+// Configuration options
+#define DEBUG_AIR 0
+#define MAIN_THEME 'bee1.mid'
+#define PROD_EFFECTIVENESS 67
+#define AIR_SLEEP 5
+#define ACID_DELAY 100
+#define REBOOT_DELAY 150
+#define DEFAULT_PRESSURE 200
+#define PRESSURE_SLEEP 5
+#define ALIEN_GRAB_PROB 33
+#define ALIEN_GRAB_WAIT 25
+#define ALIEN_BREAK_DOOR_PROB 33
+#define ALIEN_OPEN_DOOR_PROB 7
+#define ALIEN_BUMP_DOOR_WAIT 30
+#define PLAY_AS_CRITTER 1
+#define WALKIE_TALKIE_RANGE 3
+#define INTERCOM_RANGE 5
+#define SOPHIE_SLEEP 4
+#define CHANGE_DIR_PROB 10
+#define VACUUM_SLEEP 1
+#define SUCK_SLEEP 2
+#define FLUO_INITIAL_DELAY 8
+#define FLUO_FLICKER_DELAY 2
+#define FLAME_DAMAGE_PROB 25
+#define FLAMETHROWER_SPUTTER_PERCENT 33
+#define FLAME_LUMINOSITY 2
+#define FLAME_RANGE 6
+#define FLAMETHROWER_FUEL 81
+#define FLAMETHROWER_SLEEP 2
+#define CLIMB_SLEEP 8
+#define DESCEND_SLEEP 4
+#define SHOW_CPU_SLEEP 5
+#define CRITTER_TYPE null
+#define PLAYER_START_AREA /area/room/Mess
+#define DOOR_EFFECT_DELAY 4
+#define BEAMS 4
+#define BEAM_SLEEP 7
+#define GROVEL_PROBABILITY 20
+#define HUMAN_MOVE 4
+#define SPACE_DETAIL_PROB 20
+
+//Fun to tweak
+#define CAT_COUNT 1
+#define CRITTER_COUNT 1
+#define LAZY_EYE 2
+#define VENTSHAFT_SLOWDOWN_TICKS 3
+#define VIEW 6
+
+
+// External directories
+//#define FILE_DIR ../My Documents/BYONDdemos/SpaceTugRscs
+
+// BEGIN_FILE_DIR
+#define FILE_DIR .
+// END_FILE_DIR
+
+// BEGIN_INCLUDE
+#include "ST2001areas.dm"
+#include "ST2001globalProcs.dm"
+#include "ST2001main.dm"
+#include "ST2001mobs.dm"
+#include "ST2001mtracker.dm"
+#include "ST2001overlays.dm"
+#include "ST2001portables.dm"
+#include "ST2001turfs.dm"
+#include "ST2001vacuum.dm"
+#include "ST2001test2.dmp"
+#include "style.dms"
+// END_INCLUDE
+// BEGIN_PREFERENCES
+// END_PREFERENCES
+// BEGIN_INTERNALS
+// END_INTERNALS
