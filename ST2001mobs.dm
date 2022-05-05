@@ -19,7 +19,7 @@ client
 
 
 	Del()
-		world << "[mob] is catatonic with fear!"
+		world << "[mob] стал катоником от страха!"
 		checkVictory = 1
 		. = ..()
 
@@ -44,14 +44,14 @@ client
 
 
 	proc/Beg()
-		var/confirmText = "Yes!"
+		var/confirmText = "Да!"
 		var/payNow = alert(mob, \
-			"Would you like to donate one BYONDime toward bonus shares for the engineers?", \
-			"Infrequent random prompt", confirmText, "Not now, thanks")
+			"Хотите пожертвовать один BYONDime для инженеров?", \
+			"Нечастая случайная подсказка", confirmText, "Не сейчас, спасибо")
 		if(payNow == confirmText)
 //			if(mob.client.PayDimes(1,"Gughunter","SpaceTug donation"))
 //				mob << "Thank you very much!"
-			world << "Thanks, but you get a free pass for now!"
+			world << "Спасибо, но пока вы получаете бесплатный пропуск!"
 
 
 	Center()
@@ -62,7 +62,7 @@ client
 		//Scream if near a critter.
 		var/mob/critter/C
 		for(C in view(mob, 2))
-			if((!istype(mob, /mob/critter)) && !CheckGhost(mob)) Say(mob, "Aieeeeeee!")
+			if((!istype(mob, /mob/critter)) && !CheckGhost(mob)) Say(mob, "Айееееее!")
 			break
 
 		//Climb or descend if on a ladder.
@@ -118,11 +118,15 @@ mob
 
 
 	verb/help()
+		set name = "помощь"
+		set category = "Основное"
 		//Someday:	usr << file2text('SThelp.txt')
-		usr << "Press the center (keypad 5) key to use doors, ladders, and so forth."
+		usr << "Нажмите на центр нампада (кнопка 5) ключ для использования дверей, лестниц и т. д."
 
 
 	verb/who()
+		set name = "кто"
+		set category = "Основное"
 		for(var/mob/M in world)
 			if(M.client) usr << M
 
@@ -157,18 +161,22 @@ mob
 
 
 	Stat()
-		if(statpanel("Carrying"))
+		if(statpanel("Особи"))
 			stat(contents)
 
 
 	verb/say(T as text)
+		set name = "говорить"
+		set category = "Основное"
 		Say(usr, T)
 
 
 	verb/toggle_facing()
+		set name = "переключить лицо"
+		set category = "Основное"
 		if(doFacing) doFacing = 0
 		else doFacing = 1
-		usr << "Your ability to change facing without moving is now [GetOnOffText(doFacing)]."
+		usr << "Ваша способность менять лицо, не двигаясь, теперь [GetOnOffText(doFacing)]."
 
 
 	proc/Wander()
@@ -198,7 +206,7 @@ mob
 		G.density = 0
 		G.invisibility = 1
 		G.sight |= SEEINVIS
-		G.name = "[src]'s ghost"
+		G.name = "[src] (призрак)"
 		G.key = src.key
 
 
@@ -281,6 +289,8 @@ mob
 
 
 			verb/attack(mob/M as mob in range(1))
+				set name = "атаковать"
+				set category = "Основное"
 				Attack(M)
 
 
@@ -292,7 +302,7 @@ mob
 				for(var/mob/hearee in range(src, VIEW))
 					hearee.HearSound('critter1.wav', 10, 9)
 
-				M.Damage(1, "Critter attack", 1)
+				M.Damage(1, "Атака особи", 1)
 
 
 			Think()
@@ -336,7 +346,7 @@ mob
 					if(P && IsRoughlyFacing(M, src, 45) && prob(PROD_EFFECTIVENESS))
 						dir = turn(dir, 180)
 						joltEndTime = world.time + 30
-						src << "You are temporarily stunned by the electric prod!"
+						src << "Вы временно оглушены электробатоном!"
 						for(var/mob/hearee in range(src, VIEW))
 							hearee.HearSound('zap.wav', 3, 2)
 						return
@@ -354,7 +364,7 @@ mob
 							if(prob(ALIEN_OPEN_DOOR_PROB))
 								T.Open()
 
-								SayPA("Aunt Sophie", "Warning. Door malfunction in [T.loc].")
+								SayPA("ИИ София", "Внимание. Сбой двери в [T.loc].")
 
 								if(prob(ALIEN_BREAK_DOOR_PROB))
 									T.Break()
@@ -397,5 +407,5 @@ mob
 
 
 		Die()
-			Say(src, "Ack!")
+			Say(src, "Мяу!")
 			. = ..()

@@ -8,12 +8,14 @@ obj/portable
 
 
 	verb/get()
+		set name = "взять"
 		set src in oview(1)
 		if(CheckGhostOrBrute(usr)) return
 		Move(usr)
 
 
 	verb/drop()
+		set name = "выбросить"
 		set src in usr
 		//Put the object in whatever nearby turf can hold it. Since range() returns turfs
 		//closest first, this will usually be the turf the player is standing in.
@@ -24,6 +26,7 @@ obj/portable
 
 
 	flamethrower
+		name = "огнемёт"
 		icon = 'flamethrower.dmi'
 		density = 0
 		opacity = 0
@@ -65,31 +68,37 @@ obj/portable
 							--fuel
 					else
 						if(ismob(loc))
-							loc << "Out of fuel."
+							loc << "Топлива нет."
 						extinguish()
 
 				sleep(FLAMETHROWER_SLEEP)
 
 
 		verb/flame()
+			set name = "зажечь"
+			set category = "Основное"
 			set src in view(1)
 			if(CheckGhostOrBrute(usr)) return
 			on = 1
 
 
 		verb/extinguish()
+			set name = "затушить"
+			set category = "Основное"
 			set src in view(1)
 			if(CheckGhostOrBrute(usr)) return
 			on = 0
 
 	prod
+		name = "стан-палка"
 		icon = 'cattleProd.dmi'
 
 	walkie_talkie
-		name = "walkie-talkie"
+		name = "рация"
 		icon = 'walkieTalkie.dmi'
 
 	flashlight
+		name = "фонарик"
 		icon = 'flashlight.dmi'
 		var/beams[BEAMS]
 
@@ -139,6 +148,7 @@ obj
 		icon = null
 
 	flame
+		name = "огонь"
 		icon = 'flame.dmi'
 		luminosity = FLAME_LUMINOSITY
 		var/distance = FLAME_RANGE
@@ -195,4 +205,4 @@ obj
 		proc/DealDamage(mob/M)
 			if(istype(M))
 				if(prob(FLAME_DAMAGE_PROB))
-					M.Damage(1, "Burned by flamethrower", 1)
+					M.Damage(1, "Огонь!", 1)

@@ -49,13 +49,13 @@ area
 		Entered(mob/player/M)
 			. = ..()
 			if(istype(M))
-				M << "Welcome to SpaceTug, by Gughunter. Suspense theme by Gazoot. Main theme by Beethoven.<p>"
+				M << "Добро пожаловать в SpaceTug от Gughunter. Тема саспенса от Gazoot. Основная тема Beethoven. Перевод выполнил Sanecman.<p>"
 				M << \
-"<b>You are a crew member of the commercial towing vehicle <i>Monstoro.</i><p>\
-When you type 'start' or leave this area, you will join a crisis already in progress.\
-<p>There is a critter \
-aboard the ship, and it will kill you and your crewmates one by one unless you can stop it.<p>"
-				M << "<p>Type <b>help</b> for instructions."
+"<b>Вы член экипажа коммерческого тягача <i>Монсторо.</i><p>\
+Для начала вашего кошмара надо покинуть данную область или нажать во вкладке Основное кнопку старт.\
+<p>Так-же есть особь \
+на борту корабля, и оно убьет вас и ваших товарищей по команде одного за другим, если вы не сможете его остановить.<p>"
+				M << "<p>Жми <b>помощь</b> для помощи."
 
 
 		Exited(mob/player/M)
@@ -64,6 +64,8 @@ aboard the ship, and it will kill you and your crewmates one by one unless you c
 			usr = M; start()
 
 		verb/start()
+			set name = "войти"
+			set category = "Основное"
 			var/mob/critter/C
 			var/playableCritters
 
@@ -76,16 +78,16 @@ aboard the ship, and it will kill you and your crewmates one by one unless you c
 					break
 
 			if(playableCritters)
-				var/playCritter = input(usr, "Do you want to play as a critter?", null, "no") \
-					in list("yes", "no")
-				if(playCritter == "yes")
+				var/playCritter = input(usr, "Играть за особь?", null, "нет") \
+					in list("да", "нет")
+				if(playCritter == "да")
 					for(C in world)
 						if(!C.client)
 							C.key = usr.key
 							return
 
-					usr << "Sorry--all playable critters are taken now. \
-						You will be a regular player."
+					usr << "Извини--все особи заняты. \
+						Теперь ты обычный игрок."
 
 			if(PutInPlace(usr, PLAYER_START_AREA))
 				AssignPlayerIcon(usr)
@@ -93,9 +95,9 @@ aboard the ship, and it will kill you and your crewmates one by one unless you c
 				for(var/mob/M in world)
 					M.HearSound('newplayer.wav', 9, 41)
 
-				(world.contents - usr) << "[usr] is ready to help."
+				(world.contents - usr) << "[usr] готов помочь."
 
-				usr << "The horror has begun.\nHave fun!"
+				usr << "Началось\nПриятного веселья!"
 					//A tribute to the original Resident Evil (great atmosphere, inane puzzles):
 					//"You have once again entered the world of survival horror. Good luck!"
 					//Be sure to say "Good luck!" in a really cheerful tone of voice.
@@ -153,7 +155,7 @@ aboard the ship, and it will kill you and your crewmates one by one unless you c
 		shuttle
 			proc/Launch()
 				if(locks["shuttlelaunched"])
-					usr << "Already launched."
+					usr << "Уже запущен."
 					return
 				else locks["shuttlelaunched"] = 1
 
@@ -164,7 +166,7 @@ aboard the ship, and it will kill you and your crewmates one by one unless you c
 						//fixme: In theory, one or both of these calls could fail, I think.
 
 				spawn(DOOR_EFFECT_DELAY + 1)
-					SayPA("Aunt Sophie", "Shuttle has been launched by [usr].")
+					SayPA("ИИ София", "Шаттл запущен [usr].")
 
 				var/turf/SB = locate("shuttleBase")
 				var/turf/FSB = locate("fakeShuttleBase")
@@ -175,7 +177,7 @@ aboard the ship, and it will kill you and your crewmates one by one unless you c
 					companion.GetLaunchedStuff(T)
 
 		shuttle2
-			name = "shuttle"
+			name = "шаттл"
 			realm = "shuttle"
 
 		sleep_chamber

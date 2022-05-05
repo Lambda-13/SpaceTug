@@ -1,0 +1,103 @@
+macro "macro"
+	elem 
+		name = "Center+REP"
+		command = ".center"
+	elem 
+		name = "Northeast+REP"
+		command = ".northeast"
+	elem 
+		name = "Southeast+REP"
+		command = ".southeast"
+	elem 
+		name = "Southwest+REP"
+		command = ".southwest"
+	elem 
+		name = "Northwest+REP"
+		command = ".northwest"
+	elem 
+		name = "West+REP"
+		command = ".west"
+	elem 
+		name = "North+REP"
+		command = ".north"
+	elem 
+		name = "East+REP"
+		command = ".east"
+	elem 
+		name = "South+REP"
+		command = ".south"
+
+
+menu "menu"
+	elem 
+		name = "Ф&айл"
+		command = ""
+		saved-params = "is-checked"
+	elem 
+		name = "&Выйти"
+		command = ".quit"
+		category = "Ф&айл"
+		saved-params = "is-checked"
+	elem 
+		name = "&Переподключиться"
+		command = ".reconnect"
+		category = "Ф&айл"
+		saved-params = "is-checked"
+
+
+window "default"
+	elem "default"
+		type = MAIN
+		pos = 372,0
+		size = 1024x768
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+		is-default = true
+		saved-params = "pos;size;is-minimized;is-maximized"
+		macro = "macro"
+		menu = "menu"
+		outer-size = 1042x862
+		inner-size = 1024x790
+	elem "input1"
+		type = INPUT
+		pos = 640,744
+		size = 384x24
+		anchor1 = 63,97
+		anchor2 = 100,100
+		font-family = "OCR A Extended"
+		font-size = 10
+		text-color = #ffffff
+		background-color = #333333
+		saved-params = ""
+		command = "говорить \""
+	elem "output1"
+		type = OUTPUT
+		pos = 640,344
+		size = 384x400
+		anchor1 = 63,45
+		anchor2 = 99,97
+		font-family = "OCR A Extended"
+		is-default = true
+		saved-params = "max-lines"
+	elem "info1"
+		type = INFO
+		pos = 640,0
+		size = 384x344
+		anchor1 = 63,0
+		anchor2 = 100,45
+		font-family = "OCR A Extended"
+		font-size = 10
+		text-color = #b2b2b2
+		background-color = #000000
+		saved-params = ""
+		tab-text-color = #b2b2b2
+		tab-background-color = #000000
+	elem "map1"
+		type = MAP
+		pos = 0,0
+		size = 640x768
+		anchor1 = 0,0
+		anchor2 = 63,97
+		saved-params = "zoom;letterbox;zoom-mode"
+

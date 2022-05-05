@@ -1,5 +1,6 @@
 obj/portable
 	motion_tracker
+		name = "детектор движений"
 		icon = 'Motion_tracker.dmi'
 		var/mob/owner
 
@@ -71,7 +72,7 @@ obj/portable
 			ShowBlip(myX, myY, myZ, myState)
 				var/obj/dummyO = OverlayManager.GetOverlay('blip.dmi', myState)
 
-				if(!dummyO) world << "Error: state [myState] not registered."
+				if(!dummyO) world << "Ошибка: состояние [myState] не определено."
 
 				var/turf/myTurf = locate(myX, myY, myZ)
 				if(myTurf)

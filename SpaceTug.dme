@@ -67,6 +67,7 @@
 #include "ST2001portables.dm"
 #include "ST2001turfs.dm"
 #include "ST2001vacuum.dm"
+#include "skin.dmf"
 #include "ST2001test2.dmp"
 #include "style.dms"
 // END_INCLUDE

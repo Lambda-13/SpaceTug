@@ -13,7 +13,7 @@ proc/BlowAirlock(mob/M)
 
 proc/AbortSelfDestruct()
 	if(locks["selfdestruct"] == 1 && !locks["destructwait"])
-		SayPA("Aunt Sophie", "Self-destruct aborted by [usr].")
+		SayPA("ИИ София", "Самоуничтожение отменено [usr].")
 		locks["selfdestruct"] = 0
 		locks["lastabort"] = world.time
 
@@ -22,14 +22,14 @@ proc/SelfDestruct()
 	var/incept = world.time
 
 	if(locks["selfdestruct"])
-		usr << "Self-destruct sequence is already initiated."
+		usr << "Самоуничтожение уже запущено."
 		return
 	else
 		locks["selfdestruct"] = 1
 
 	for(var/mob/M in world)
 		M.HearSound('reactor_2min_lhr.wav', 8, 44)
-	SayPA("Aunt Sophie", "Self-destruct initiated by [usr].")
+	SayPA("ИИ София", "Самоуничтожение запущено [usr].")
 	sleep(600)
 
 	if(locks["lastabort"] > incept) return
@@ -43,23 +43,23 @@ proc/SelfDestruct()
 	sleep(250)
 
 	if(locks["lastabort"] > incept) return
-	SayPA("Aunt Sophie", "Five.")
+	SayPA("ИИ София", "Пять.")
 	sleep(10)
 
 	if(locks["lastabort"] > incept) return
-	SayPA("Aunt Sophie", "Four.")
+	SayPA("ИИ София", "Четыре.")
 	sleep(10)
 
 	if(locks["lastabort"] > incept) return
-	SayPA("Aunt Sophie", "Three.")
+	SayPA("ИИ София", "Три.")
 	sleep(10)
 
 	if(locks["lastabort"] > incept) return
-	SayPA("Aunt Sophie", "Two.")
+	SayPA("ИИ София", "Два.")
 	sleep(10)
 
 	if(locks["lastabort"] > incept) return
-	SayPA("Aunt Sophie", "One.")
+	SayPA("ИИ София", "Один.")
 	sleep(10)
 
 	if(locks["lastabort"] > incept) return
@@ -68,7 +68,7 @@ proc/SelfDestruct()
 		if(A.type == /area/space) continue
 		if(A.type == /area/room/shuttle2 && locks["shuttlelaunched"]) continue
 		for(var/mob/M in A)
-			M.Damage(999, "Destroyed in self-destruct", 0)
+			M.Damage(999, "Стёрт с кораблём", 0)
 		for(var/obj/O in A)
 			del O
 		for(var/turf/T in A)
@@ -121,7 +121,7 @@ turf
 
 		if(prob(100 - myGeneration * 45)) //0 = 100; 1 = 55; 2 = 10; 3+ = 0
 			sleep(ACID_DELAY)
-			SayPA("Aunt Sophie", "Warning. Structural integrity compromised in [loc].")
+			SayPA("ИИ София", "Внимание. Нарушение герметичности в [loc].")
 
 			if(AdjacentToVacuum()) PunchHole()
 			else
@@ -207,13 +207,14 @@ turf
 				T.Sleep()
 
 		verb/Sleep()
-			set name = "sleep"
+			set name = "лечь в слипер"
+			set category = "Слипер"
 			set src in range(usr, 1)
 
 			if(CheckGhostOrBrute(usr)) return
 			for(var/mob/M in src)
 				if(!CheckGhost(M))
-					usr << "Occupied."
+					usr << "Занято."
 					return
 
 			usr.loc = src
@@ -227,6 +228,8 @@ turf
 
 
 		verb/awaken()
+			set name = "выйти из слипера"
+			set category = "Слипер"
 			set src in range(usr, 1)
 
 			if(CheckGhost(usr)) return
@@ -250,11 +253,11 @@ turf
 
 		New()
 			. = ..()
-			if(name == "wall") name = loc:name
+			if(name == "стена") name = loc:name
 
 
 		dark_wall
-			name = "wall"
+			name = "стена"
 			icon = 'dark_wall.dmi'
 
 		hull
@@ -262,23 +265,23 @@ turf
 			icon_state = "Hrivets"
 
 		white_wall
-			name = "wall"
+			name = "стена"
 			icon = 'wall.dmi'
 
 		beige_wall
-			name = "wall"
+			name = "стена"
 			icon = 'wall2.dmi'
 
 		pipe_wall
-			name = "wall"
+			name = "стена"
 			icon = 'wall3.dmi'
 
 		bridge_wall
-			name = "wall"
+			name = "стена"
 			icon = 'wall4.dmi'
 
 		sophie_wall
-			name = "wall"
+			name = "стена"
 			icon = 'wall5.dmi'
 			luminosity = 2
 
@@ -289,22 +292,24 @@ turf
 
 
 		shaft_wall
-			name = "wall"
+			name = "стена"
 			icon = 'wall6.dmi'
 
 		chapel_wall
-			name = "wall"
+			name = "стена"
 			icon = 'wall7.dmi'
 
 		rust_wall
-			name = "wall"
+			name = "стена"
 			icon = 'wall8.dmi'
 
 		window
+			name = "окно"
 			icon = 'window.dmi'
 			opacity = 0
 
 		terminal
+			name = "консоль"
 			var/on = 0
 			icon = 'terminal.dmi'
 			icon_state = "off"
@@ -329,58 +334,62 @@ turf
 
 
 			verb/blow_airlock()
-				set category = "terminal"
+				set name = "Уничтожить шлюз"
+				set category = "консоль"
 				set src = range(usr, 1)
 
 				BlowAirlock(usr)
 
 
 			verb/self_destruct()
-				set category = "terminal"
+				set name = "Активировать самоуничтожение"
+				set category = "консоль"
 				set src in range(usr, 1)
 
 				if(CheckGhostOrBrute(usr)) return
 				if(loc:type != /area/room/bridge)
-					usr << "This function can only be accessed from the bridge."
+					usr << "Доступ к этой функции возможен только с мостика."
 					return
 
-				var/sdOK = input(usr, "Are you sure?", "Activate Self-Destruct Sequence", "no") \
-					in list("no", "yes")
-				if(sdOK == "yes" && src in range(usr, 1)) spawn SelfDestruct()
+				var/sdOK = input(usr, "Ты уверен?", "Активировать самоуничтожение", "нет") \
+					in list("нет", "да")
+				if(sdOK == "да" && src in range(usr, 1)) spawn SelfDestruct()
 
 
 			verb/abort_self_destruct()
-				set category = "terminal"
+				set name = "Отменить самоуничтожение"
+				set category = "консоль"
 				set src in range(usr, 1)
 
 				if(CheckGhostOrBrute(usr)) return
 				if(loc:type != /area/room/bridge)
-					usr << "This function can only be accessed from the bridge."
+					usr << "Доступ к этой функции возможен только с мостика."
 					return
 
-				var/sdOK = input(usr, "Are you sure?", "Abort Self-Destruct Sequence", "no") \
-					in list("no", "yes")
-				if(sdOK == "yes" && src in range(usr, 1)) spawn AbortSelfDestruct()
+				var/sdOK = input(usr, "Ты уверен?", "Отменить самоуничтожение", "нет") \
+					in list("нет", "да")
+				if(sdOK == "да" && src in range(usr, 1)) spawn AbortSelfDestruct()
 
 
 			verb/launch_shuttle()
-				set category = "terminal"
+				set name = "Запустить шаттл"
+				set category = "консоль"
 				set src in range(usr, 1)
 
 				if(CheckGhostOrBrute(usr)) return
 				if(loc:type != /area/room/shuttle)
-					usr << "This function can only be accessed from the shuttle."
+					usr << "Доступ к этой функции возможен только с шаттла."
 					return
 
-				var/sdOK = input(usr, "Are you sure?", "Launch Shuttle", "no") \
-					in list("no", "yes")
-				if(sdOK == "yes" && src in range(usr, 1))
+				var/sdOK = input(usr, "Ты уверен?", "Запустить шаттл", "нет") \
+					in list("нет", "да")
+				if(sdOK == "да" && src in range(usr, 1))
 					var/area/room/shuttle/S = locate()
 					spawn S.Launch()
 
 
 			verb/PA(T as text)
-				set category = "terminal"
+				set category = "консоль"
 				set src = range(usr, 1)
 
 				if(CheckGhostOrBrute(usr)) return
@@ -395,7 +404,7 @@ turf
 		New()
 			. = ..()
 			if(name == "floor") name = loc:name
-			if(loc:type == /area/space) spawn world << "Bad floor: [x] [y] [z]"
+			if(loc:type == /area/space) spawn world << "Сломаный пол: [x] [y] [z]"
 			currentAir++
 
 
@@ -410,13 +419,13 @@ turf
 				if(CheckGhostOrBrute(usr)) return
 				for(var/mob/M in src)
 					if(!CheckGhost(M) && M != usr)
-						usr << "Occupied."
+						usr << "Занято."
 						return
 
 				usr.loc = src
 				usr.bound = 1
 				usr.suckable = 0
-				usr << "Buckled in."
+				usr << "Пристёгнут."
 
 
 			verb/unbuckle()
@@ -429,7 +438,7 @@ turf
 						M.loc = usr.loc
 						M.bound = 0
 						M.suckable = 1
-						M << "Unbuckled."
+						M << "Отстёгнут."
 
 
 		table
@@ -451,23 +460,27 @@ turf
 
 
 			verb/climb()
+				set name = "Подняться"
+				set category = "Основное"
 				set src = usr.loc
-				usr << "Climbing."
+				usr << "Поднимаюсь."
 
 				sleep(CLIMB_SLEEP)
 				if(usr.loc == src)
 					if(!usr.Move(locate(x, y, z + 1)))
-						usr << "Blocked."
+						usr << "Не могу."
 
 
 			verb/descend()
+				set name = "Опуститься"
+				set category = "Основное"
 				set src = usr.loc
 
-				usr << "Descending."
+				usr << "Опускаюсь."
 				sleep(DESCEND_SLEEP)
 				if(src == usr.loc)
 					if(!usr.Move(locate(x, y, z - 1)))
-						usr << "Blocked."
+						usr << "Не могу."
 
 
 			New()
@@ -495,7 +508,8 @@ turf
 
 
 		verb/blow_airlock()
-			set category = "door"
+			set name = "уничтожить шлюз"
+			set category = "шлюз"
 			set src = range(usr, 1)
 
 			BlowAirlock(usr)
@@ -503,7 +517,7 @@ turf
 
 		New()
 			. = ..()
-			if(loc:type == /area/space) spawn world << "Bad door: [x] [y] [z]"
+			if(loc:type == /area/space) spawn world << "Сломаный пол: [x] [y] [z]"
 
 			spawn
 				if(AdjacentToSpace()) Close()
@@ -541,18 +555,24 @@ turf
 
 
 		verb/open()
+			set name = "открыть"
+			set category = "Основное"
 			set src in range(1)
 			if(CheckGhostOrBrute(usr)) return
 			if(!open) Open()
 
 
 		verb/close()
+			set name = "закрыть"
+			set category = "Основное"
 			set src in range(1)
 			if(CheckGhostOrBrute(usr)) return
 			Close()
 
 
 		proc/Open()
+			set name = "открыть"
+			set category = "Основное"
 			if(!open && !locked)
 				icon_state = "open"
 				flick("opening", src)
@@ -565,13 +585,15 @@ turf
 						opacity = 0
 						SetVacuumSource(AdjacentToVacuum(), src)
 						if(AdjacentToSpace())
-							SayPA("Aunt Sophie", "Warning. Outer door opened in [loc] by [usr].")
+							SayPA("ИИ София", "Внимание. Открытие наружного шлюза в [loc] спровоцировано [usr].")
 
 
 		proc/Close()
+			set name = "закрыть"
+			set category = "Основное"
 			if(open)
 				if(broken)
-					usr << "Door is malfunctioning."
+					usr << "Сломано."
 					return
 
 				icon_state = "closed"
@@ -582,7 +604,7 @@ turf
 
 				var/mob/M
 				for(M in src)
-					M.Damage(1, "Pinched in door", 1)
+					M.Damage(1, "Раздавлен шлюзом", 1)
 					spawn Open()
 					return
 
@@ -594,26 +616,27 @@ turf
 
 
 		spiral_door
-			name = "ventilation system access"
+			name = "доступ к системе вентиляции"
 			icon = 'spiralDoor.dmi'
 
 		beige_door
-			name = "door"
+			name = "шлюз"
 			icon = 'door3.dmi'
 			opacity = 0
 
 		purina_door
-			name = "door"
+			name = "шлюз"
 			icon = 'door2.dmi'
 
 		blue_door
-			name = "door"
+			name = "шлюз"
 			icon = 'door4.dmi'
 
 obj
 	var/suckable = 0
 
 	intercom
+		name = "интерком"
 		icon = 'intercom.dmi'
 		icon_state = "on"
 		layer = TURF_LAYER + 0.1
@@ -627,6 +650,7 @@ obj
 
 
 	fluorescent_light
+		name = "лампа"
 		icon = 'fluorescent.dmi'
 		icon_state = "off"
 		luminosity = 0

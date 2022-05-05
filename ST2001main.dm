@@ -18,7 +18,7 @@ obj/helper
 
 world
 	view = VIEW
-	name = "SpaceTug"
+	name = "КосмоБуксир"
 	mob = /mob/player
 	turf = /turf/space
 	area = /area/space
@@ -80,38 +80,38 @@ world
 
 		switch(shipType)
 			if(/mob/player)
-				world << "\n<b>The humans win!</b>"
+				world << "\n<b>Люди выйграли!</b>"
 				spawn Recap()
 			if(/mob/critter)
 				world << \
-					"\n<b>The Monstoro returns to Earth with [critterCount] critter\s on board. \
-					All hell breaks loose!</b>"
+					"\n<b>Монсторо возвращается на Землю с [critterCount] особью на борту. \
+					Весь Ад вырвался на свободу!</b>"
 				spawn Recap()
 			else
 				switch(shuttleType)
 					if(/mob/player)
 						world << \
-							"\n<b>The ship is lost, but some of the crew survived. The \
-							Interstate Commerce Commission will have plenty of questions!</b>"
+							"\n<b>Корабль уничтожен, но некоторые люди смогли выжить \
+							У Межгосударственной Торговой Комиссии будет много вопросов!</b>"
 						spawn Recap()
 					if(/mob/critter)
 						world << \
-							"\n<b>The shuttle is packed with crittery goodness.</b>"
+							"\n<b>Шаттл был захвачен особью.</b>"
 						spawn Recap()
 					else
 						world << \
-							"\n<b>No critters remain! That's a victory for Earth... \
-							but not much consolation to the crew.</b>"
+							"\n<b>Тварей не осталось! Это победа Земли... \
+							но не большое утешение для экипажа.</b>"
 						spawn Recap()
 
 
 	proc/Recap()
 		locks["victory"] = 1
 		if(deathCauses.len)
-			world << "<p><b><u>They Were Expendable</u></b><br>"
+			world << "<p><b><u>Они были расходным материалом</u></b><br>"
 			for(var/K in deathCauses)
 				world << "[K]: [deathCauses[K]]"
-		world << "<p>Reboot in [REBOOT_DELAY / 10] seconds."
+		world << "<p>Рестарт через [REBOOT_DELAY / 10] секунд."
 		sleep(REBOOT_DELAY)
 		Reboot()
 

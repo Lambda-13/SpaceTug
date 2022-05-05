@@ -46,8 +46,8 @@ proc/MaintainVacuum()
 				if(airReduction >= originalAir * 0.01)
 					airVolume -= airReduction
 					if(airVolume < 0) airVolume = 0
-					SayPA("Aunt Sophie", "Warning. Air reserves now at \
-					[100 * airVolume / originalAir] percent.")
+					SayPA("ИИ София", "Внимание. Запас кислорода составляет \
+					[100 * airVolume / originalAir] процентов.")
 
 			lastStable = currentAir
 		else
@@ -70,13 +70,13 @@ proc/MaintainPressure()
 				if(!oldPress) oldPress = 1 //avoid div by 0
 				M.pressure += PRESSURE_SLEEP
 				if(M.pressure && (round(M.maxPressure / M.pressure) == round(M.maxPressure / oldPress)))
-					M << "Pressure building!"
+					M << "Давление растёт!"
 
 				if(M.pressure > M.maxPressure)
 					M.pressure = -999999
 					flick("explode", M)
 					sleep (12)
-					if(M) M.Damage(999, "Depressurized", 1)
+					if(M) M.Damage(999, "Разгерметизация", 1)
 			else if(M.pressure > 0) M.pressure -= 1
 
 		sleep(PRESSURE_SLEEP)

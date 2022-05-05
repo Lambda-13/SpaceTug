@@ -6,7 +6,7 @@ proc/GetID()
 proc/ShowCPU(mob/M, myDelay)
 	if(!myDelay) myDelay = SHOW_CPU_SLEEP
 	while(CPUOn)
-		M << "CPU [world.cpu]"
+		M << "ЦПУ [world.cpu]"
 		sleep(myDelay)
 
 
@@ -32,9 +32,9 @@ proc/GetOnOffText(x)
 
 proc/IsNearComms(mob/M)
 	//fixme: doesn't handle radios in mob contents!
-	if(locate(/obj/portable/walkie_talkie, range(M, WALKIE_TALKIE_RANGE))) return "on radio:"
+	if(locate(/obj/portable/walkie_talkie, range(M, WALKIE_TALKIE_RANGE))) return "в радио:"
 	for(var/obj/intercom/I in range(M, INTERCOM_RANGE))
-		if(I.icon_state == "on") return "on intercom:"
+		if(I.icon_state == "on") return "в интерком:"
 
 
 proc/AlterPropriety(obj/target, myFlag)
@@ -44,20 +44,22 @@ proc/AlterPropriety(obj/target, myFlag)
 
 proc/SayPA(speaker, Z)
 	if(locks["selfdestruct"] == 2) return
-	var/T = "<b>[speaker] on PA system: [Z]</b>"
+	var/T = "<b>[speaker] сообщает: [Z]</b>"
 	for(var/mob/M in world)
 		M << T
 	world.log << T
 
 
 proc/Say(speaker, T)
+	set name = "говорить"
+	set category = "Основное"
 	var/mob/M
 	var/K
 	var/sayTargets[0] //A list of everyone who will hear the message.
 
 	//Everyone within a range of world.view will hear it.
 	for(M in range(speaker, VIEW))
-		sayTargets[M] = "says:"
+		sayTargets[M] = "говорит:"
 
 	//Record the horror for posterity.
 	sayTargets += world.log
@@ -67,7 +69,7 @@ proc/Say(speaker, T)
 	var/device
 	for(M in world)
 		if(!sayTargets.Find(M))
-			if(CheckGhost(M)) sayTargets[M] = "says:" //ghosts hear everything
+			if(CheckGhost(M)) sayTargets[M] = "говорит:" //ghosts hear everything
 			else if(IsNearComms(speaker))
 				device = IsNearComms(M)
 				if(device) sayTargets[M] = device
@@ -76,7 +78,10 @@ proc/Say(speaker, T)
 	for(K in sayTargets)
 		K << "<b>[speaker] [sayTargets[K]]</b> [T]"
 		if(ismob(K) && K:client) ++hearers
-	speaker << "<small>Heard by [hearers] player\s.</small>"
+	if(hearers == 1)
+		speaker << "<small>Никого нету рядом.</small>"
+	else
+		speaker << "<small>[hearers] игрока услышало вас.</small>"
 
 
 proc/CheckGhost(mob/M)
